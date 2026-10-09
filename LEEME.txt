@@ -1,0 +1,5 @@
+EVERMORE — versión sin carpetas
+
+Sube index.html y los cinco archivos PNG directamente a la raíz del repositorio de GitHub. No los pongas dentro de una carpeta. Conserva exactamente los nombres de los archivos. Después pulsa Commit changes.
+
+Nota: las fotografías individuales de algunas pulseras aún deben incorporarse; los catálogos de materiales están incluidos.

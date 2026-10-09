@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evermore | Accesorios</title>
+<style>
+:root{
+  --pink:#e85d8e; --pink2:#fff0f5; --dark:#30252b; --muted:#756b70;
+  --white:#fff; --line:#eadfe4; --green:#3a8f70;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fffafb;color:var(--dark)}
+button,input,select{font:inherit}
+button{cursor:pointer;border:0}
+header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
+.nav{max-width:1180px;margin:auto;padding:14px 18px;display:flex;gap:14px;align-items:center}
+.logo{font-size:22px;font-weight:900;color:var(--pink);margin-right:auto}
+.nav button{background:transparent;padding:9px;border-radius:10px}
+.cartBtn{background:var(--pink)!important;color:white;font-weight:800}
+.hero{background:linear-gradient(135deg,#fff0f6,#fff,#f5efff);padding:55px 18px}
+.heroIn{max-width:1180px;margin:auto;display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center}
+.hero h1{font-size:clamp(34px,6vw,64px);margin:0 0 12px}
+.hero p{font-size:18px;color:var(--muted);line-height:1.6}
+.cta{background:var(--pink);color:#fff;padding:13px 19px;border-radius:12px;font-weight:800}
+.heroArt{min-height:260px;border-radius:28px;background:#fff;box-shadow:0 15px 45px #d9a7bb55;display:grid;place-items:center;font-size:110px}
+.wrap{max-width:1180px;margin:auto;padding:35px 18px}
+.sectionTitle{display:flex;gap:15px;align-items:end;justify-content:space-between;flex-wrap:wrap}
+.sectionTitle h2{margin:0;font-size:30px}
+.controls{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0}
+.controls input,.controls select{padding:12px 13px;border:1px solid var(--line);border-radius:11px;background:#fff;outline:none}
+.categories{display:flex;gap:8px;overflow:auto;padding-bottom:5px}
+.cat{padding:9px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);white-space:nowrap}
+.cat.active{background:var(--dark);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:17px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 6px 18px #00000008;transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 28px #00000012}
+.pic{height:210px;background:#f8edf2;display:grid;place-items:center;font-size:75px;position:relative;overflow:hidden}.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.badge{position:absolute;top:10px;left:10px;background:#fff;padding:5px 8px;border-radius:8px;font-size:12px;font-weight:800}
+.cardBody{padding:14px}
+.card h3{margin:0 0 6px}
+.desc{color:var(--muted);font-size:13px;line-height:1.45;min-height:38px}
+.price{font-size:20px;font-weight:900;margin:10px 0}
+.rating{color:#d58a00;font-size:13px}
+.cardActions{display:flex;gap:8px}
+.cardActions button{flex:1;padding:10px;border-radius:10px}
+.more{background:#f5eef1}.buy{background:var(--pink);color:#fff;font-weight:800}
+footer{margin-top:50px;background:#30252b;color:#fff;padding:35px 18px}
+.footerIn{max-width:1180px;margin:auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px}
+footer p{color:#d8cdd2;line-height:1.6}
+
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:50;padding:15px;overflow:auto}
+.modal.open{display:grid;place-items:center}
+.box{background:#fff;width:min(900px,100%);border-radius:22px;max-height:92vh;overflow:auto;position:relative}
+.close{position:absolute;right:13px;top:13px;width:38px;height:38px;border-radius:50%;background:#eee;font-size:20px;z-index:2}
+.detail{display:grid;grid-template-columns:1fr 1fr}
+.detailImg{min-height:440px;background:#f8edf2;display:grid;place-items:center;font-size:130px;overflow:hidden}.detailImg img{width:100%;height:100%;min-height:440px;object-fit:cover;display:block}
+.detailInfo{padding:30px}
+.detailInfo h2{font-size:32px;margin:0 0 8px}
+.detailInfo p{color:var(--muted);line-height:1.6}
+.option{border:1px solid var(--line);padding:12px;border-radius:13px;margin:9px 0}
+.option strong{display:block;margin-bottom:8px}
+.swatches{display:flex;flex-wrap:wrap;gap:7px}
+.swatch{width:32px;height:32px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px #bbb}
+.swatch.selected{box-shadow:0 0 0 3px var(--pink)}
+.qty{display:flex;gap:8px;align-items:center;margin:15px 0}
+.qty button{width:35px;height:35px;border-radius:9px;background:#eee}
+.add{width:100%;padding:14px;border-radius:12px;background:var(--pink);color:#fff;font-weight:900}
+.whats{background:#27ae60!important;margin-top:9px}
+.cartList{padding:22px}
+.cartItem{display:flex;gap:13px;padding:13px 0;border-bottom:1px solid var(--line);align-items:center}
+.cartEmoji{width:65px;height:65px;background:#f8edf2;border-radius:12px;display:grid;place-items:center;font-size:32px}
+.cartItemInfo{flex:1}
+.remove{background:#ffe9ee;color:#b32652;padding:7px 9px;border-radius:8px}.cartQty{display:flex;align-items:center;gap:6px;margin-top:6px}.cartQty button{width:28px;height:28px;border-radius:7px;background:#eee}.cartQty span{min-width:22px;text-align:center;font-weight:800}
+.total{font-size:24px;font-weight:900;text-align:right;padding:18px 0}
+.empty{text-align:center;color:var(--muted);padding:35px}
+.notice{background:#fff6cf;padding:12px;border-radius:11px;color:#725d00;font-size:13px;margin-top:12px}.gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}.galleryItem{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}.galleryItem img{width:100%;height:78px;object-fit:cover;display:block}.galleryItem span{display:block;padding:6px;font-size:11px;line-height:1.2;color:var(--dark)}@media(max-width:650px){.gallery{grid-template-columns:repeat(2,1fr)}.galleryItem img{height:100px}}
+
+@media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}.heroIn{grid-template-columns:1fr}.footerIn{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.grid{grid-template-columns:repeat(2,1fr);gap:11px}.pic{height:170px}.detail{grid-template-columns:1fr}.detailImg{min-height:260px}.detailInfo{padding:20px}.hero{padding:35px 15px}.wrap{padding:28px 12px}.footerIn{grid-template-columns:1fr}.nav{padding:11px 12px}.logo{font-size:18px}.nav button:not(.cartBtn){display:none}}
+@media(max-width:420px){.grid{grid-template-columns:1fr}.pic{height:220px}}
+
+.customOption{border:1px solid #f0dce4;border-radius:14px;padding:13px;margin:12px 0}.customOption>small{display:block;color:var(--muted);margin-top:5px}.materialGallery{display:flex;gap:8px;overflow-x:auto;padding:10px 0}.materialGallery img{height:130px;width:auto;max-width:190px;object-fit:cover;border-radius:10px;border:1px solid var(--line);cursor:zoom-in}.colorChoices{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}.colorChoice{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #eadfe4;border-radius:18px;padding:7px 10px;color:var(--dark);font-size:12px}.colorChoice.selected{border:2px solid var(--pink);background:#fff0f5}.colorDot{width:17px;height:17px;border-radius:50%;border:1px solid #ddd;display:inline-block;flex-shrink:0}.selectionHint{margin-top:8px;display:block}.relatedProducts{display:flex;gap:8px;overflow-x:auto;padding:10px 0}.relatedProduct{min-width:125px;display:flex;flex-direction:column;gap:5px;align-items:center;background:#fff5f8;border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--dark)}.relatedProduct span{font-size:26px}.relatedProduct b{font-size:12px}.relatedProduct small{font-size:11px;color:var(--muted)}
+
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     💗 ZONA FÁCIL DE EDITAR
+     Cambia solamente los datos dentro de PRODUCTOS.
+     Puedes cambiar nombre, precio, categoría, descripción,
+     emoji, calificación y opciones de personalización.
+     ========================================================= -->
+
+<header>
+  <div class="nav">
+    <div class="logo">🌸 Evermore</div>
+    <button onclick="irProductos()">Productos</button>
+    <button onclick="abrirCarrito()" class="cartBtn">🛒 Carrito (<span id="cartCount">0</span>)</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="heroIn">
+    <div>
+      <p style="color:var(--pink);font-weight:900;margin-bottom:5px">EVERMORE · REYNOSA, TAMPS. ✦</p>
+      <h1>Poetry in jewelry form.</h1>
+      <p>Porque hay cosas que no necesitan palabras. A veces, solo necesitan una pequeña pieza que las represente. ♡</p>
+      <button class="cta" onclick="irProductos()">Ver productos</button>
+    </div>
+    <div class="heroArt">🌷💎🦋</div>
+  </div>
+</section>
+
+<section class="wrap" id="sobre-evermore" style="padding-bottom:5px"><div style="background:linear-gradient(135deg,#fff4f8,#fff);border:1px solid var(--line);border-radius:22px;padding:26px"><p style="color:var(--pink);font-weight:900;margin:0 0 6px">SOBRE EVERMORE</p><h2 style="margin:0 0 10px">Poetry in jewelry form.</h2><p style="color:var(--muted);line-height:1.7;max-width:760px;margin:0">Porque hay cosas que no necesitan palabras. A veces, solo necesitan una pequeña pieza que las represente. ♡ Accesorios hechos a mano para llevar contigo aquello que te hace especial.</p><div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:16px"><a href="https://instagram.com/evermore_mx" target="_blank" class="cta" style="text-decoration:none">Instagram @evermore_mx</a><a href="https://www.tiktok.com/@evermore_mx" target="_blank" class="cat" style="text-decoration:none;color:var(--dark)">TikTok</a><a href="https://www.facebook.com/evermore_mx" target="_blank" class="cat" style="text-decoration:none;color:var(--dark)">Facebook</a></div><p style="font-size:13px;color:var(--muted);margin-bottom:0">📍 Reynosa, Tamaulipas · 📦 Entregas: dependiendo del pedido</p></div></section>
+<main class="wrap" id="productos">
+  <div class="sectionTitle">
+    <div><p style="color:var(--pink);font-weight:800;margin:0">CATÁLOGO</p><h2>Encuentra tu favorito</h2></div>
+  </div>
+
+  <div class="controls">
+    <input id="search" type="search" placeholder="🔎 Buscar producto..." oninput="render()">
+    <select id="sort" onchange="render()">
+      <option value="default">Ordenar</option>
+      <option value="low">Precio: menor a mayor</option>
+      <option value="high">Precio: mayor a menor</option>
+      <option value="rating">Mejor calificación</option>
+    </select>
+  </div>
+
+  <div class="categories" id="categories"></div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  <div class="footerIn">
+    <div><h2>🌸 Evermore</h2><p>Porque hay cosas que no necesitan palabras. A veces, solo necesitan una pequeña pieza que las represente. ♡</p></div>
+    <div><h3>Categorías</h3><p>Pulseras<br>Aretes<br>Collares<br>Sets<br>Anillos</p></div>
+    <div><h3>Contacto</h3><p>WhatsApp: <span id="phoneText">899 163 5496</span><br>Instagram: @evermore_mx</p></div>
+  </div>
+</footer>
+
+<!-- MODAL PRODUCTO -->
+<div class="modal" id="productModal">
+  <div class="box">
+    <button class="close" onclick="cerrar('productModal')">×</button>
+    <div class="detail">
+      <div class="detailImg" id="detailImg">🌸</div>
+      <div class="detailInfo">
+        <div class="rating" id="detailRating"></div>
+        <h2 id="detailName"></h2>
+        <div class="price" id="detailPrice"></div>
+        <p id="detailDesc"></p>
+        <div id="options"></div>
+        <div class="qty"><b>Cantidad:</b><button onclick="changeQty(-1)">−</button><span id="qty">1</span><button onclick="changeQty(1)">+</button></div>
+        <button class="add" onclick="addFromDetail()">🛒 Agregar al carrito</button>
+        <button class="add whats" onclick="whatsappProduct()">💬 Consultar por WhatsApp</button>
+        <div class="notice">💡 Puedes reemplazar estos productos de ejemplo por tus productos reales desde la zona “FÁCIL DE EDITAR” del código.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CARRITO -->
+<div class="modal" id="cartModal">
+  <div class="box" style="max-width:650px">
+    <button class="close" onclick="cerrar('cartModal')">×</button>
+    <div class="cartList">
+      <h2>🛒 Tu carrito</h2>
+      <div id="cartItems"></div>
+      <div class="total">Total: $<span id="cartTotal">0</span> MXN</div><div class="notice">📦 Las entregas se coordinan dependiendo del pedido. Para confirmar disponibilidad y punto de entrega, escríbenos por Instagram o WhatsApp.</div>
+      <button class="add whats" onclick="enviarPedido()">💬 Enviar pedido por WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   💗 EDITA TUS PRODUCTOS AQUÍ
+   =========================================================
+   Para agregar un producto, copia uno de los objetos y cambia
+   sus datos. No necesitas tocar el resto del código.
+
+   image: puedes usar un emoji mientras haces pruebas.
+   Más adelante puedes poner una imagen local o una URL.
+   ========================================================= */
+
+const PRODUCTOS = [
+ {id:1,name:"Eterno Florecer",price:130,category:"Pulseras",desc:"Una pulsera delicada inspirada en la belleza de las flores. Su diseño combina tres variantes florales: dos flores con centro dorado fijo y un girasol cuyo centro puede personalizarse.",emoji:"🌸",image:null,gallery:[],rating:5,collection:"Eterno Florecer",custom:[{label:"Color de flor 1",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Color de flor 2",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Color de girasol",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Centro del girasol",material:"Cristal facetado #4",max:1,catalog:"cristal4"}],inspirations:["Versión original en rosa","Versión personalizada con una flor azul"]},
+ {id:2,name:"Jardín de Tulipanes · Diseño 1",price:null,category:"Pulseras",collection:"Jardín de Tulipanes",desc:"Una variante de la colección Jardín de Tulipanes. Los dijes de tulipán disponibles son rojo, azul, rosa, amarillo y lila.",emoji:"🌷",image:null,gallery:[],rating:5,custom:[{label:"Flor 1",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Flor 2",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Girasol",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Centro del girasol",material:"Cristal facetado #4",max:1,catalog:"cristal4"},{label:"Dije de tulipán",material:"Dije",max:1,options:["Rojo","Azul","Rosa","Amarillo","Lila"]}],inspirations:[]},
+ {id:3,name:"Jardín de Tulipanes · Diseño 2",price:null,category:"Pulseras",collection:"Jardín de Tulipanes",desc:"Una variante de la colección Jardín de Tulipanes. Los dijes de tulipán disponibles son rojo, azul, rosa, amarillo y lila.",emoji:"🌷",image:null,gallery:[],rating:5,custom:[{label:"Flor 1",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Flor 2",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Girasol",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Centro del girasol",material:"Cristal facetado #4",max:1,catalog:"cristal4"},{label:"Dije de tulipán",material:"Dije",max:1,options:["Rojo","Azul","Rosa","Amarillo","Lila"]}],inspirations:[]},
+ {id:4,name:"Jardín de Tulipanes · Diseño 3",price:null,category:"Pulseras",collection:"Jardín de Tulipanes",desc:"Una variante de la colección Jardín de Tulipanes. Los dijes de tulipán disponibles son rojo, azul, rosa, amarillo y lila.",emoji:"🌷",image:null,gallery:[],rating:5,custom:[{label:"Flor 1",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Flor 2",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Girasol",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Centro del girasol",material:"Cristal facetado #4",max:1,catalog:"cristal4"},{label:"Dije de tulipán",material:"Dije",max:1,options:["Rojo","Azul","Rosa","Amarillo","Lila"]}],inspirations:[]},
+ {id:5,name:"Jardín de Tulipanes · Diseño 4",price:null,category:"Pulseras",collection:"Jardín de Tulipanes",desc:"Una variante de la colección Jardín de Tulipanes. Los dijes de tulipán disponibles son rojo, azul, rosa, amarillo y lila.",emoji:"🌷",image:null,gallery:[],rating:5,custom:[{label:"Flor 1",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Flor 2",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Girasol",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Centro del girasol",material:"Cristal facetado #4",max:1,catalog:"cristal4"},{label:"Dije de tulipán",material:"Dije",max:1,options:["Rojo","Azul","Rosa","Amarillo","Lila"]}],inspirations:[]},
+ {id:6,name:"Jardín de Tulipanes · Diseño 5",price:null,category:"Pulseras",collection:"Jardín de Tulipanes",desc:"Una variante de la colección Jardín de Tulipanes. Los dijes de tulipán disponibles son rojo, azul, rosa, amarillo y lila.",emoji:"🌷",image:null,gallery:[],rating:5,custom:[{label:"Flor 1",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Flor 2",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Girasol",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Centro del girasol",material:"Cristal facetado #4",max:1,catalog:"cristal4"},{label:"Dije de tulipán",material:"Dije",max:1,options:["Rojo","Azul","Rosa","Amarillo","Lila"]}],inspirations:[]},
+ {id:7,name:"Jardín de Girasoles",price:150,category:"Pulseras",collection:"Colección Girasoles",desc:"Un diseño lleno de luz y color, inspirado en la alegría de los girasoles. Una pieza que captura la esencia de un pequeño jardín llevado contigo.",emoji:"🌻",image:null,gallery:[],rating:5,custom:[{label:"Pétalos del girasol",material:"Chaquira calibrada",max:2,catalog:"chaquira"},{label:"Centro del girasol",material:"Cristal facetado #4",max:2,catalog:"cristal4"}],inspirations:[]},
+ {id:8,name:"Girasol & Perla",price:130,category:"Pulseras",collection:"Colección Girasoles",desc:"La calidez de los girasoles se encuentra con la delicadeza de las perlas en una combinación elegante y luminosa.",emoji:"🌻",image:null,gallery:[],rating:5,custom:[{label:"Pétalos del girasol",material:"Chaquira calibrada",max:2,catalog:"chaquira"},{label:"Centro del girasol",material:"Cristal facetado #4",max:2,catalog:"cristal4"}],inspirations:[]},
+ {id:9,name:"Girasol Silvestre",price:130,category:"Pulseras",collection:"Colección Girasoles",desc:"Un diseño inspirado en la belleza natural de los girasoles y los pequeños detalles que hacen especial a un jardín silvestre.",emoji:"🌼",image:null,gallery:[],rating:5,custom:[{label:"Pétalos de margarita",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Centro de margarita",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Pétalos del girasol",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Centro del girasol",material:"Cristal facetado #4",max:1,catalog:"cristal4"}],inspirations:[]},
+ {id:10,name:"Verso de Cristal",price:130,category:"Pulseras",desc:"Una pieza delicada donde las flores y los cristales se combinan para crear un diseño lleno de brillo y personalidad.",emoji:"💎",image:null,gallery:[],rating:5,custom:[{label:"Pétalos de la flor",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Cristal",material:"Cristal facetado #6",max:1,catalog:"cristal6"}],inspirations:[]},
+ {id:11,name:"Encaje de Jardín",price:130,category:"Pulseras",desc:"Un diseño floral delicado que combina pequeñas flores con cristales para crear una pieza romántica y llena de detalles.",emoji:"🌷",image:null,gallery:[],rating:5,custom:[{label:"Pétalos de la flor",material:"Chaquira calibrada",max:1,catalog:"chaquira"},{label:"Encaje",material:"Cristal facetado #4",max:1,catalog:"cristal4"}],inspirations:[]}
+];
+
+/* Colores de ejemplo para las opciones de personalización. */
+const COLORES = [
+  {name:"Rosa",hex:"#f48fb1"},
+  {name:"Rojo",hex:"#e53935"},
+  {name:"Naranja",hex:"#fb8c00"},
+  {name:"Amarillo",hex:"#fdd835"},
+  {name:"Verde",hex:"#43a047"},
+  {name:"Azul",hex:"#1e88e5"},
+  {name:"Morado",hex:"#8e44ad"},
+  {name:"Blanco",hex:"#ffffff"},
+  {name:"Negro",hex:"#222222"}
+];
+
+let categoria="Todos";
+let productoActual=null;
+let cantidad=1;
+let selecciones={};
+let carrito=JSON.parse(localStorage.getItem('evermore_cart')||'[]');
+
+function money(n){return n==null?"":Number(n).toLocaleString("es-MX",{minimumFractionDigits:0})}
+function priceLabel(p){return p.price==null?"Precio no definido":"$"+money(p.price)+" MXN"}
+function irProductos(){document.getElementById("productos").scrollIntoView({behavior:"smooth"})}
+function cerrar(id){document.getElementById(id).classList.remove("open")}
+
+function init(){
+  const cats=["Todos",...new Set(PRODUCTOS.map(p=>p.category))];
+  document.getElementById("categories").innerHTML=cats.map(c=>`<button class="cat ${c===categoria?'active':''}" onclick="setCat('${c.replace(/'/g,"\\'")}')">${c}</button>`).join("");
+  render();
+  updateCart();
+}
+function setCat(c){categoria=c;init()}
+function render(){
+  const q=document.getElementById("search").value.toLowerCase().trim();
+  let lista=PRODUCTOS.filter(p=>(categoria==="Todos"||p.category===categoria) && (p.name.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q)));
+  const sort=document.getElementById("sort").value;
+  if(sort==="low")lista.sort((a,b)=>(a.price??Infinity)-(b.price??Infinity));
+  if(sort==="high")lista.sort((a,b)=>(b.price??-Infinity)-(a.price??-Infinity));
+  if(sort==="rating")lista.sort((a,b)=>b.rating-a.rating);
+  document.getElementById("grid").innerHTML=lista.length?lista.map(card).join(""):`<div class="empty" style="grid-column:1/-1">No encontramos productos con esa búsqueda. 💗</div>`;
+}
+function card(p){
+  return `<article class="card">
+    <div class="pic"><span class="badge">${p.category}</span>${p.image?`<img src="${p.image}" alt="${p.name}">`:`<span>${p.emoji}</span>`}</div>
+    <div class="cardBody">
+      <div class="rating">★ ${p.rating}</div>
+      <h3>${p.name}</h3>
+      <div class="desc">${p.desc}</div>
+      <div class="price">${priceLabel(p)}</div>
+      <div class="cardActions">
+        <button class="more" onclick="openProduct(${p.id})">Ver detalles</button>
+        ${p.availableForCart===false?`<button class="buy" onclick="openProduct(${p.id})">Ver colección</button>`:`<button class="buy" onclick="quickAdd(${p.id})">Agregar</button>`}
+      </div>
+    </div>
+  </article>`
+}
+function openProduct(id){
+ productoActual=PRODUCTOS.find(p=>p.id===id); cantidad=1; selecciones={};
+ const detailImg=document.getElementById("detailImg");detailImg.innerHTML=productoActual.image?`<img src="${productoActual.image}" alt="${productoActual.name}">`:`<span style="font-size:110px">${productoActual.emoji}</span>`;
+ document.getElementById("detailRating").textContent=`★ ${productoActual.rating} · ${productoActual.category}`;
+ document.getElementById("detailName").textContent=productoActual.name;
+ document.getElementById("detailPrice").textContent=priceLabel(productoActual);
+ document.getElementById("detailDesc").textContent=productoActual.desc;
+ document.getElementById("qty").textContent=1;
+ const galleryHTML=productoActual.gallery?.length?`<div class="option"><strong>Galería</strong><div class="gallery">${productoActual.gallery.map(g=>`<div class="galleryItem"><img src="${g.image||g}" alt="${g.name||productoActual.name}">${g.name?`<span>${g.name}</span>`:''}</div>`).join('')}</div></div>`:'';
+ const customHTML=productoActual.custom?.length?productoActual.custom.map((o,i)=>optionHTML(o,i)).join(""):'';
+ const related=productoActual.collection?PRODUCTOS.filter(p=>p.collection===productoActual.collection&&p.id!==productoActual.id):[];
+ const relatedHTML=related.length?`<div class="option"><strong>Más diseños de ${productoActual.collection}</strong><div class="relatedProducts">${related.map(p=>`<button type="button" class="relatedProduct" onclick="openProduct(${p.id})"><span>${p.emoji}</span><b>${p.name.replace(productoActual.collection+' · ','')}</b><small>${priceLabel(p)}</small></button>`).join('')}</div></div>`:'';
+ const insp=productoActual.inspirations?.length?`<div class="option"><strong>Inspiraciones / combinaciones</strong><ul>${productoActual.inspirations.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:'';
+ document.getElementById("options").innerHTML=galleryHTML+customHTML+insp+relatedHTML;
+ document.querySelector('.qty').style.display='flex';document.querySelector('.add').style.display='block';
+ document.querySelector('.whats').textContent='💬 Consultar por WhatsApp';
+ document.getElementById("productModal").classList.add("open");
+}
+const MATERIAL_CATALOGOS={chaquira:{label:"Catálogo de chaquira calibrada",image:"catalogo-chaquira.png",colors:["Beige","Rojo","Rosa","Lila","Azul","Verde","Amarillo","Blanco"]},cristal4:{label:"Catálogos de cristal facetado #4",images:["catalogo-cristal-4-verde.png","catalogo-cristal-4-tonos.png","catalogo-cristal-4-varios.png"],colors:["Verde manzana tornasol","Verde mate oliva","Verde botella","Rosa","Lila tornasol","Lila","Rosa tornasol","Blanco mate","Azul plumago","Azul plumago mate","Rojo cereza mate","Rojo","Rojo tornasol oscuro","Naranja","Café claro","Amarillo mate","Amarillo canario","Lila","Verde manzana","Miel"]},cristal6:{label:"Catálogo de cristal facetado #6",image:"catalogo-cristal-6.png",colors:["Lila","Azul plumago","Rojo tornasol oscuro","Verde manzana","Miel","Rosa","Rojo"]}};
+function optionHTML(o,index){
+ const cfg=MATERIAL_CATALOGOS[o.catalog];
+ const opts=o.options||cfg?.colors||[];
+ const pics=o.catalog==="cristal4"?(cfg.images||[]):(cfg?.image?[cfg.image]:[]);
+ return `<div class="option customOption"><strong>${o.label}</strong><small>${o.material} · elige ${o.max===1?'1 color':`hasta ${o.max} colores`}</small>${pics.length?`<div class="materialGallery">${pics.map(src=>`<img src="${src}" alt="${cfg.label}" loading="lazy" onclick="window.open('${src}','_blank')">`).join('')}</div>`:''}<div class="swatches colorChoices">${opts.map((name,i)=>`<button type="button" class="colorChoice" data-option="${index}" data-color="${name}" onclick="selectColor(${index},'${name.replace(/'/g,"\'")}',this)"><span class="colorDot" style="background:${colorHex(name)}"></span><span>${name}</span></button>`).join('')}</div><small id="sel${index}" class="selectionHint">Sin elegir</small></div>`
+}
+function colorHex(name){const map={"Beige":"#e8d3b4","Rojo":"#d7192d","Rosa":"#e9a4b3","Lila":"#a978c7","Azul":"#1765b7","Verde":"#45a52e","Amarillo":"#f4d600","Blanco":"#fff","Verde manzana tornasol":"#74c95b","Verde mate oliva":"#91b85b","Verde botella":"#006747","Lila tornasol":"#b68bdf","Rosa tornasol":"#efb4c5","Blanco mate":"#f1f0e9","Azul plumago":"#2f77b9","Azul plumago mate":"#234c9a","Rojo cereza mate":"#a81f30","Rojo tornasol oscuro":"#a3001b","Naranja":"#f05a24","Café claro":"#87502c","Amarillo mate":"#e7bf16","Amarillo canario":"#f7d52b","Verde manzana":"#76bc43","Miel":"#9a4f1e"};return map[name]||"#ddd"}
+function selectColor(index,name,el){
+ if(!selecciones[index])selecciones[index]=[];
+ const opt=productoActual.custom[index]; const arr=selecciones[index];
+ if(arr.includes(name)){selecciones[index]=arr.filter(x=>x!==name);el.classList.remove('selected')}
+ else {if(arr.length>=opt.max){alert(`Puedes elegir máximo ${opt.max} ${opt.max===1?'color':'colores'} para ${opt.label.toLowerCase()}.`);return;}arr.push(name);el.classList.add('selected')}
+ document.getElementById("sel"+index).textContent=selecciones[index].length?"Elegido: "+selecciones[index].join(", "):"Sin elegir";
+}
+function changeQty(n){cantidad=Math.max(1,cantidad+n);document.getElementById("qty").textContent=cantidad}
+function addFromDetail(){
+  if(!productoActual)return;
+  if(productoActual.availableForCart===false || productoActual.price==null){whatsappProduct();return;}
+  carrito.push({id:Date.now(),productId:productoActual.id,name:productoActual.name,price:productoActual.price,emoji:productoActual.emoji,image:productoActual.image,qty:cantidad,options:{...selecciones}});
+  updateCart();cerrar("productModal");alert("¡Producto agregado al carrito! 🛒");
+}
+function quickAdd(id){
+  const p=PRODUCTOS.find(x=>x.id===id);
+  if(p.availableForCart===false || p.price==null){openProduct(id);return;}
+  carrito.push({id:Date.now(),productId:p.id,name:p.name,price:p.price,emoji:p.emoji,image:p.image,qty:1,options:{}});
+  updateCart();alert("¡Agregado al carrito! 🛒");
+}
+function updateCart(){
+  document.getElementById("cartCount").textContent=carrito.reduce((s,x)=>s+x.qty,0);
+  localStorage.setItem("evermore_cart",JSON.stringify(carrito));
+  const box=document.getElementById("cartItems");
+  if(!carrito.length){box.innerHTML='<div class="empty">Tu carrito está vacío. 🌸</div>';document.getElementById("cartTotal").textContent="0";return}
+  box.innerHTML=carrito.map(x=>`<div class="cartItem"><div class="cartEmoji">${x.emoji}</div><div class="cartItemInfo"><b>${x.name}</b><br><span>$${money(x.price)} MXN c/u</span>${Object.values(x.options).length?`<br><small>Personalización: ${Object.values(x.options).join(", ")}</small>`:""}<div class="cartQty"><button onclick="changeCartQty(${x.id},-1)">−</button><span>${x.qty}</span><button onclick="changeCartQty(${x.id},1)">+</button></div></div><button class="remove" onclick="removeCart(${x.id})">Eliminar</button></div>`).join("");
+  document.getElementById("cartTotal").textContent=money(carrito.reduce((s,x)=>s+x.price*x.qty,0));
+}
+function changeCartQty(id,n){const item=carrito.find(x=>x.id===id);if(!item)return;item.qty=Math.max(1,item.qty+n);updateCart();}
+function removeCart(id){carrito=carrito.filter(x=>x.id!==id);updateCart()}
+function abrirCarrito(){updateCart();document.getElementById("cartModal").classList.add("open")}
+function enviarPedido(){
+  if(!carrito.length){alert("Tu carrito está vacío.");return}
+  let texto="Hola, quiero hacer este pedido:%0A%0A";
+  carrito.forEach(x=>{texto+=`• ${x.name} x${x.qty} - $${x.price*x.qty} MXN%0A`;});
+  texto+=`%0ATotal: $${carrito.reduce((s,x)=>s+x.price*x.qty,0)} MXN`;
+  const telefono="528991635496"; // CAMBIA AQUÍ TU NÚMERO DE WHATSAPP
+  window.open(`https://wa.me/${telefono}?text=${texto}`,"_blank");
+}
+function whatsappProduct(){
+  if(!productoActual)return;
+  const telefono="528991635496"; // CAMBIA AQUÍ TU NÚMERO DE WHATSAPP
+  const detalles=(productoActual.custom||[]).map((o,i)=>{const vals=selecciones[i]||[];return vals.length?`• ${o.label} (${o.material}): ${vals.join(', ')}`:null}).filter(Boolean).join("\n");
+  const texto=encodeURIComponent(`Hola, me interesa ${productoActual.name}${productoActual.price==null?'. ¿Me compartes el precio?':` de $${productoActual.price} MXN.`}${detalles?`\n\nMi personalización:\n${detalles}`:'\n\nQuisiera conocer las opciones de personalización.'}`);
+  window.open(`https://wa.me/${telefono}?text=${texto}`,"_blank");
+}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){cerrar("productModal");cerrar("cartModal")}})
+init();
+</script>
+</body>
+</html>
